@@ -17,7 +17,6 @@ class SegmentationMetric(object):
         target: label 3D tensor   B,H,W
         0 1 2(bk)
         '''
-
         correct, labeled = batch_pix_accuracy(preds, labels)
         inter, union = batch_intersection_union(preds, labels, self.nclass)
         self.total_correct += correct
@@ -148,104 +147,6 @@ class RefugeIndicatorsMetric(object):
         cup=(self.cup_dice/self.batch_num,self.cup_miou/self.batch_num,self.cup_macc/self.batch_num)
         disc=(self.disc_dice/self.batch_num,self.disc_miou/self.batch_num,self.disc_macc/self.batch_num)
         return cup,disc
-
-
-
-
-class RefugeIndicatorsMetricBinary(object):
-    def __init__(self):
-        self.reset()
-
-    def reset(self):
-        self.total_dice=0.
-        self.total_miou=0.
-        self.total_macc=0.
-        self.batch_num=0.
-
-    def update(self,output,target,threshold=0.5):
-        '''
-        :param preds:  n,c h,w    c==1
-        :param target: n,h,w   0,1,2(bk)
-        :return:
-        '''
-        n,c,h,w=output.size()
-        assert c==1,"the class num is wrong !"
-        output=F.sigmoid(output)
-        # output=F.softmax(output,dim=1)
-        # # n,h,w
-        # output=torch.max(output,dim=1)[1]
-        # n,h,w --> n,h,w
-        target=target.cpu().numpy().astype(np.uint8)
-        # n,h,w
-        output=output.cpu().numpy()[:,0,:,:]
-        output=(output>threshold).astype(np.uint8)
-        #target=(target==np.max(target)).astype(np.uint8)
-        # n,h,w
-        dice=self.dice_coef(output,target)
-        self.total_dice+=dice
-
-        # total acc of cup and disc
-        miou=self.miou(output,target)
-        self.total_miou+=miou
-
-        macc=self.mAcc(output,target)
-        self.total_macc+=macc
-        self.batch_num+=1
-
-        # miou
-    def dice_coef(self,pred,target):
-        '''
-        :param pred: n h,w
-        :param target: n,h,w
-        :return:
-        '''
-        # compute each images`s dice
-        smooth = 1e-8
-        intersection = np.sum(pred * target,axis=(1,2))
-        unionpp=np.sum(target * target,axis=(1,2)) + np.sum(pred * pred,axis=(1,2))
-        dice=(2. * intersection + smooth) / (unionpp + smooth)
-        #print("Iter:{} unionpp:{}".format(intersection,unionpp))
-        return dice.mean()
-
-    def miou(self,pred,target):
-        '''
-        :param pred:  n,h,w
-        :param target:
-        :return:
-        '''
-        smooth = 1e-8
-        # each image`s inter
-        intersection = np.sum(pred * target,axis=(1,2))
-        union=np.sum(target * target,axis=(1,2)) + np.sum(pred * pred,axis=(1,2))-intersection
-        assert (intersection <= union).all(), \
-            "Intersection area should be smaller than Union area"
-        miou=(smooth+intersection)/(smooth+union)
-        #print("Iter:{} union:{}".format(intersection,union))
-        return miou.mean()
-
-    def mAcc(self,pred,target):
-        '''
-        :param pred: input value is 0,1  n,h,w
-        :param target:
-        :return:
-        '''
-        smooth = 1e-8
-        pred=pred+1
-        target=target+1
-        label_pixels=np.sum(target>0,axis=(1,2))
-        cprrect_pixels=np.sum((pred==target)*(target>0),axis=(1,2))
-        assert (cprrect_pixels <= label_pixels).all(), \
-            "cprrect_pixels area should be smaller than label_pixels area"
-        acc=(cprrect_pixels+smooth)/(label_pixels+smooth)
-        #print("label:{} acc:{}".format(label_pixels,cprrect_pixels))
-        return acc.mean()
-
-    def avg(self):
-        '''
-        :return:  return refuge avg acc dice moiu
-        '''
-        cup=(self.total_dice/self.batch_num,self.total_miou/self.batch_num,self.total_macc/self.batch_num)
-        return cup
 
 
 
