@@ -31,6 +31,7 @@ Helper functions and scripts.
 
 
 e.g. `python eval_baseline_chaos.py --val_batch=8`
+e.g. `python eval_baseline_cvc.py --val_batch=8`
 
 
 ## network search
@@ -72,7 +73,6 @@ e.g. Verify V<sub>isic</sub>'s performance on the CHAOS dataset `eval_prune_chao
 **nas_search_unet_prune.py** &nbsp; The implementation of the search model, during retraining/validation.
 
 **operations.py**  Implementation of search space.
-
 
 **model_time_test.py**  Measuring the inference time of single picture.
 

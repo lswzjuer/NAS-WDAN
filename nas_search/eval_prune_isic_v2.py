@@ -270,7 +270,7 @@ if __name__ == '__main__':
     parser.add_argument('--init_channels', type=int, default=16, help="cell init change channel ")
     parser.add_argument('--nclass', type=int, default=1, help="output feature channel")
     parser.add_argument('--epoch', type=int, default=800, help="epochs")
-    parser.add_argument('--val_batch', type=int, default=32, help="val_batch ")
+    parser.add_argument('--val_batch', type=int, default=30, help="val_batch ")
     parser.add_argument('--num_workers', type=int, default=2, help="dataloader numworkers")
     parser.add_argument('--layers', type=int, default=9, help='the layer of the nas search unet')
     parser.add_argument('--middle_nodes', type=int, default=4, help="middle_nodes ")
