@@ -31,7 +31,7 @@ Helper functions and scripts.
 
 
 e.g. `python eval_baseline_chaos.py --val_batch=8`
-e.g. `python eval_baseline_cvc.py --val_batch=8`
+
 
 
 ## network search
