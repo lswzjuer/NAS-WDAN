@@ -149,8 +149,6 @@ class RefugeIndicatorsMetric(object):
         return cup,disc
 
 
-
-
 class BinaryIndicatorsMetric(object):
     def __init__(self):
         self.reset()
