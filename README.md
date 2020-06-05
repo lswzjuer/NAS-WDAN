@@ -76,3 +76,33 @@ e.g. Verify V<sub>isic</sub>'s performance on the CHAOS dataset `eval_prune_chao
 **model_time_test.py**  Measuring the inference time of single picture.
 
 **get_arch_parameters.py** Network structure parameter analysis.
+
+## How do we perform MixupSearch ?
+
+
+`sudo CUDA_VISIBLE_DEVICES=0,1  python train_stage_search_mixup.py --epoch=80  --train_batch=12 --val_batch=12  --loss=bcelog --train_portio=0.5  --arch_lr=2e-4
+--arch_weight_decay=1e-3 --lr=0.025 --weight_decay=3e-4 --init_channel=16 --arch_after=10 --gpus=2 --double_down_channel --deepsupervision --alpha=0.5 --note=ep80_double_deep_mixup`
+
+**epoch：**  Number of training epochs per stage.
+
+**xx_batch:** Train pr val batch.
+
+**loss:** Loss function we choosed in search.
+
+**train_portio:** The training set is divided equally to optimize the `w` and (alpha,beta).
+
+**arch_lr:** The learning rate for (alpha,beta).
+
+**arch_weight_decay:** L2 normal for (alpha,beta).
+
+**lr&weight_decay:** learning rate and weight decay for `w`.
+
+**arch_after:** In order to avoid falling into local optimization too early in the search process, the optimization of (alpha,beta) was carried out after training `w` a certain epochs.
+
+**init_channel & double_down_channel:** Important parameters that determine network size and performance.
+
+**deepsupervision:** Deep supervision training.
+
+**alpha:** Control the sampling distribution when three dataset are mixup.
+
+**dropout_prob:** In order to reduce the risk of overfitting, dropout can be added to the corresponding operation in mix-operation
