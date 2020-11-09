@@ -78,10 +78,12 @@ def main(args):
         model=model.to(args.device)
         criterion=criterion.to(args.device)
     # init optimizer
-    optimizer=torch.optim.SGD(model.parameters(),lr=args.lr,weight_decay=args.weight_decay,momentum=args.momentum)
+    optimizer=torch.optim.SGD(model.parameters(),lr=args.lr,
+                                weight_decay=args.weight_decay,
+                                momentum=args.momentum)
     # init schedulers  Steplr
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer,args.epoch)
-    # scheduler=torch.optim.lr_scheduler.StepLR(optimizer=optimizer,step_size=30,gamma=0.1,last_epoch=-1)
+    #scheduler=torch.optim.lr_scheduler.StepLR(optimizer=optimizer,step_size=30,gamma=0.1,last_epoch=-1)
     ############################### check resume #########################
     start_epoch=0
     if args.resume is not None:

@@ -439,7 +439,9 @@ class UnetLayer9_v2(nn.Module):
                         keep_ops_index.append(j)
                 max_value, max_index = float(np.max(mixop_array)), int(np.argmax(mixop_array))
                 max_index_pri = keep_ops_index[max_index]
-                max_op_name=CellLinkDownPos[max_index_pri]
+                # max_index_pri=max_index
+
+                max_op_name=CellLinkDownPos[max_index_pri]       
                 assert max_op_name!='none'
                 normal_down_res.append((max_value,max_op_name))
             else:
