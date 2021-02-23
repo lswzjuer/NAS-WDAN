@@ -1,4 +1,4 @@
-# MixSearch: Searching for Better U-shape Architectures for Medical Image Segmentation by Generalizing Across Datasets and Domains
+# MixSearch: Searching for Domain Generalized Medical Image Segmentation Architectures 
 
 In this work, we propose a lightweight weaved deep aggregation network named NAS-WDAN, which contains built-in learnable horizontal and vertical feature fusion. By combining differentiable cell-level and network-level search, NAS-WDAN can automatically determine the optimal architecture and get rid of the limitations of human design. Most importantly, in order to search a high-performance generalized network, we have produced a composite dataset containing multiple domain centers and smooth transitions between domains by directly mixing several different datasets and generating additional virtual examples. Differentiable architecture search performed on this composite dataset is called "MixSearch", which can solve the generalization problem of differentiable search.
 
@@ -77,7 +77,7 @@ e.g. Verify V<sub>isic</sub>'s performance on the CHAOS dataset `eval_prune_chao
 
 **get_arch_parameters.py** Network structure parameter analysis.
 
-## How do we perform MixupSearch ?
+## How do we perform MixSearch ?
 
 
 `sudo CUDA_VISIBLE_DEVICES=0,1  python train_stage_search_mixup.py --epoch=80  --train_batch=12 --val_batch=12  --loss=bcelog --train_portio=0.5  --arch_lr=2e-4
