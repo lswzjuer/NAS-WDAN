@@ -30,7 +30,7 @@ Helper functions and scripts.
   Scripts that validate the accuracy of the model on the validation set
 
 
-e.g. `python eval_baseline_chaos.py --val_batch=8`
+e.g. `python eval_baseline_chaos.py --val_batch=1
 
 
 ## network search
