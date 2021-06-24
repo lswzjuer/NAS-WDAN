@@ -228,8 +228,8 @@ if __name__ == '__main__':
     parser.add_argument('--im_channel', type=int, default=3, help="input image channel ")
     parser.add_argument('--class_num', type=int, default=1, help="output feature channel")
     parser.add_argument('--epoch', type=int, default=200, help="epochs")
-    parser.add_argument('--val_batch', type=int, default=32, help="val_batch ")
-    parser.add_argument('--num_workers', type=int, default=2, help="dataloader numworkers")
+    parser.add_argument('--val_batch', type=int, default=1, help="val_batch ")
+    parser.add_argument('--num_workers', type=int, default=4, help="dataloader numworkers")
     parser.add_argument('--init_weight_type',type=str, choices=["kaiming",'normal','xavier','orthogonal'],
                         default="kaiming",help=" model init mode")
     parser.add_argument('--print_freq', type=int, default=100, help=" print freq (iteras) ")
