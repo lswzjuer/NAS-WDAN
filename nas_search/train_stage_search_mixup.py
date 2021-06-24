@@ -180,7 +180,7 @@ def main(args):
             if (epoch + 1) % args.infer_epoch == 0:
                 genotype = model.module.genotype()
                 logger.info('genotype = %s', genotype)
-                val_loss, (vmr, vms, vmp, vmf, vmjc, vmd, vmacc) = infer(args, model, test_dataloader, criterion)
+                val_loss, (vmr, vms, vmp, vmf, vmjc, vmd, vmacc) = infer(args, model, val_queue, criterion)
                 logger.info("ValLoss:{:.3f} ValAcc:{:.3f}  ValDice:{:.3f} ValJc:{:.3f}".format(val_loss, vmacc, vmd, vmjc))
                 writer.add_scalar('stage{}_Val/loss'.format(sp), val_loss, epoch)
                 writer.add_scalar('stage{}_Val/mDice'.format(sp), vmd, epoch)
@@ -403,12 +403,12 @@ def train(args, train_queue, val_queue, model, criterion, optimizer_weight, opti
 
 
 
-def infer(args, model, test_dataloader, criterion):
+def infer(args, model, val_queue, criterion):
     OtherVal = BinaryIndicatorsMetric()
     val_loss = AverageMeter()
     model.eval()
     with torch.no_grad():
-        for step, (input, target,_) in tqdm(enumerate(test_dataloader)):
+        for step, (input, target,_) in tqdm(enumerate(val_queue)):
             input = input.to(args.device)
             target = target.to(args.device)
             preds = model(input)
@@ -509,7 +509,7 @@ if __name__ == '__main__':
     parser.add_argument('--epochs', type=int, default=80, help="search epochs")
     parser.add_argument('--train_batch', type=int, default=6, help="train_batch")
     parser.add_argument('--val_batch', type=int, default=6, help="val_batch ")
-    parser.add_argument('--num_workers', type=int, default=2, help="dataloader numworkers")
+    parser.add_argument('--num_workers', type=int, default=4, help="dataloader numworkers")
     parser.add_argument('--train_portion', type=float, default=0.5, help="dataloader numworkers")
 
     # search network setting
